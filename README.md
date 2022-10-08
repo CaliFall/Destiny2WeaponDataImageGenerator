@@ -34,3 +34,6 @@
 
 ### WeaponDataImageGeneratorBeta.py
 #### 生成一张武器数据图片，实现方法是pillow
+
+### BungieNetAPI.py
+#### 包含了一些其他方法，其中API KEY由于开源已经隐藏（主要功能用不到API
