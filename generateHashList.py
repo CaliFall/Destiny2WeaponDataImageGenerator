@@ -15,12 +15,12 @@ for hash in itemHashList:
 
 weaponHashList.sort()
 
-with open("weaponHashList_2022_10_07.txt", "w+") as f:
+with open("weaponHashList_2022_11_09.txt", "w+") as f:
     for hash in weaponHashList:
         f.write('{}\n'.format(hash))
     print("weaponHashList done")
 
-with open("weaponHashNameList_2022_10_07.txt", "w+") as f:
+with open("weaponHashNameList_2022_11_09.txt", "w+") as f:
     for hash in weaponHashList:
         f.write('{}      {}\n'.format(hash, jsonDataBase["DestinyInventoryItemDefinition"][str(hash)]["displayProperties"]["name"]))
     print("weaponHashNameList done")

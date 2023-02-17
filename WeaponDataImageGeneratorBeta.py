@@ -1,3 +1,4 @@
+import json
 import sys
 import time
 
@@ -11,7 +12,8 @@ class WeaponInfoGenerator:
         self.startTime = time.time()
         self.version = "OS-Beta"
         self.jsonDataBasePos = "./jsonDataBase/zh-chs.json"
-        self.save_path = "./WeaponDataImageBeta/"
+        self.save_path = "./WeaponDataImage/"
+        # self.save_path = "./"
         self.spiderPathLightgg = "./spiderDataBase/lightgg/"
         self.locale = 'zh-chs'
 
@@ -63,17 +65,21 @@ class WeaponInfoGenerator:
         # 设置语言为简体中文
         locale = self.locale
 
+        mode = 'net'
+        enforce_net = True
         # 收集lightgg数据
-        if True:
-            spiderPath = self.spiderPathLightgg
-            ensureDirExist(spiderPath)
-            if Path(spiderPath+str(self.weapon_hash)+".json").is_file():
-                with open(spiderPath+str(self.weapon_hash)+".json", "r") as f:
+        if mode == 'net':
+            if Path("./spiderDataBase/lightgg/" + str(self.weapon_hash) + ".json").is_file() and enforce_net is False:
+                with open("./spiderDataBase/lightgg/" + str(self.weapon_hash) + ".json", "r") as f:
                     lightgg_json = json.loads(f.read())
-                lightggdata_time = os.path.getmtime(spiderPath+str(self.weapon_hash)+".json")
+                lightggdata_time = os.path.getmtime("./spiderDataBase/lightgg/" + str(self.weapon_hash) + ".json")
             else:
                 lightgg_json = spiderLightgg(self.weapon_hash)
                 lightggdata_time = time.time()
+        elif mode == 'default':
+            with open("./spiderDataBase/default.json", "r") as f:
+                lightgg_json = json.loads(f.read())
+                lightggdata_time = os.path.getmtime("./spiderDataBase/default.json")
 
         # 收集基础数据
         if True:
@@ -553,7 +559,7 @@ class WeaponInfoGenerator:
                               font=ImageFont.truetype(self.font_path_taipei, size=rarityPie_text_size),
                               anchor="mm")
                 # 画完全大师的弧线(如果有)
-                if lightgg_json["popularMWSampleNum_fullPercent"] != 0:
+                if lightgg_json["popularMWSampleNum_fullPercent"] != 0 and lightgg_json["popularMWSampleNum"] != "<":
                     weapon_popularMWSampleNum_fullPercent = float(lightgg_json["popularMWSampleNum_fullPercent"][:-1])
                     draw.arc([self.grv(rarityPie_position_x),
                               self.grv(rarityPie_position_y),
@@ -930,8 +936,8 @@ class WeaponInfoGenerator:
         if True:
             if 5 <= maxPerkNum <= 8:
                 maxPerkNum = 9
-            if maxPerkNum >= 14 :
-                maxPerkNum = 14
+            if maxPerkNum >= 18 :
+                maxPerkNum = 18
 
             canvas = canvas.crop((0,
                                   0,
@@ -956,7 +962,6 @@ class WeaponInfoGenerator:
                 j = weapon_json
                 if "hash" in j:
                     mes += "Hash={}\n".format(j["hash"])
-                if "index" in j:
                     mes += "Index={}\n".format(j["index"])
                 if "loreHash" in j:
                     mes += "LoreHash={}\n".format(j["loreHash"])
@@ -978,6 +983,9 @@ class WeaponInfoGenerator:
 
         save_path = self.save_path
         ensureDirExist(save_path)
+
+        if Path(save_path + str(self.weapon_hash) + ".png").is_file():
+            os.remove(save_path + str(self.weapon_hash) + ".png")
 
         canvas.save(save_path + str(self.weapon_hash) + ".png")
 
@@ -1001,7 +1009,7 @@ if __name__ == "__main__":
             # WeaponInfoGenerator(1046651176)  # 筹码
             # WeaponInfoGenerator(631439337)  # 裁决定论
             # WeaponInfoGenerator(999767358)  # 灾变
-            res = WIF.generate(3489657138)
+            res = WIF.generate(1046651176)
             print(res)
             sys.exit()
         except DataBaseNetworkError:
