@@ -1,6 +1,9 @@
 **2023年6月补充内容：**
+
 这个项目已被废弃，因为它的可维护性几乎为零
+
 如果程序出现任何问题都不必询问作者
+
 仅用于借鉴相关实现方法
 
 ---
@@ -8,12 +11,15 @@
 # Destiny2WeaponDataImageGenerator
 
 ## 一个生成命运2武器数据的程序
-### 使用时需要保持网络通畅，因为程序会从bungie服务器下载图片并从Lightgg爬取数据
+*使用时需要保持网络通畅，因为程序会从bungie服务器下载图片并从Lightgg爬取数据*
 
 ## 各个文件/文件夹作用如下：
 ### jsonDataBase文件夹: 
+
 **里面存放json格式的数据库文件，此文件路径使用Destiny2.GetDestinyManifest获得**
+
 **可以直接点击这个链接以查询 -> [https://data.destinysets.com/api/Destiny2.GetDestinyManifest](https://data.destinysets.com/api/Destiny2.GetDestinyManifest)**
+
 **其中需要的文件被收录在 “jsonWorldContentPaths” 中**
 
 
